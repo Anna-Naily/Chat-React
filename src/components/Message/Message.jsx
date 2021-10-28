@@ -1,9 +1,9 @@
 import React from "react";
 
-export const Message = ({ message }) => {
+export const Message = ({ message, onMessageClick }) => {
 
   return (
-    <h3 className="message-header">
+    <h3 className="message-header" onClick={onMessageClick}>
       {message}
     </h3>
   );
