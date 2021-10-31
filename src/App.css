@@ -1,5 +1,11 @@
 .App {
-  text-align: center;
+  margin: 20px 0px 0px 20px;
+  width: 500px;
+  background-color: #f3f3f3;
+  border: 3px solid #8dddf3;
+  border-radius: 20px;
+  height: 690px;
+  box-shadow: 0 0 7px rgba(0, 0, 0, 0.5);
 }
 
 .App-logo {
@@ -14,14 +20,53 @@
 }
 
 .App-header {
-  background-color: #282c34;
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+}
+.App-header__heading {
+  margin-top: 5px;
+  font-size: 25px;
+  font-weight: 400;
+  line-height: 36px;
+  text-align: center;
+}
+.chat-window {
+  height: 520px;
+  padding: 20px 15px 20px 15px;
+  background-color: #f0e6de;
+}
+.chat-window__el {
+  font-size: 14px;
+  padding: 5px;
+  margin-bottom: 15px;
+  background-color: #fafafa;
+  border-radius: 15px;
+  width: fit-content;
+  padding: 10px 20px 10px 20px;
+}
+.form-block {
+  display: flex;
+}
+.form-block__input {
+  margin: 10px 5px 5px 15px;
+  padding: 15px 15px;
+  width: 300px;
+  border: none;
+  border-radius: 20px;
+}
+.form-block__btn {
+  border: none;
+  background-color: #61dafb;
+  border-radius: 20px;
+  margin: 10px 0px 5px 5px;
+  padding: 15px 35px;
+  font-size: 13px;
+  color: rgb(0, 0, 0);
+  cursor: pointer;
+  transition: 0.2s;
+}
+.form-block__btn:hover {
+  background-color: #10c7fa;
 }
 
 .App-link {
