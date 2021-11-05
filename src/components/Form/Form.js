@@ -1,4 +1,5 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
+import { Button } from "react-bootstrap";
 export const Form = props => {
   const [text, setText] = useState("");
   const inputRef = useRef();
@@ -7,19 +8,12 @@ export const Form = props => {
   };
   const handleSubmit = e => {
     e.preventDefault();
-    const newArray = [...props.array];
-    if (newArray.length === 0) {
-      newArray.push({ author: "User", text: text, id: 1 });
-    } else {
-      newArray.push({
-        author: "User",
-        text: text,
-        id: newArray[newArray.length - 1].id + 1,
-      });
-    }
-    props.updateArray(newArray);
+    props.updateArray({ author: "User", text: text });
     setText("");
   };
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, []);
 
   return (
     <form className="form-block" onSubmit={handleSubmit}>
@@ -31,7 +25,13 @@ export const Form = props => {
         onChange={handleChange}
         placeholder="Введите сообщение"
       />
-      <input className="form-block__btn" type="submit" value="Отправить" />
+      <Button
+        className="mb-2 btn-input"
+        as="input"
+        type="submit"
+        value="Отправить"
+        size="sm"
+      />{" "}
     </form>
   );
 };
