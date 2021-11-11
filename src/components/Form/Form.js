@@ -10,6 +10,7 @@ export const Form = props => {
     e.preventDefault();
     props.updateArray({ author: "User", text: text });
     setText("");
+    inputRef.current?.focus();
   };
   useEffect(() => {
     inputRef.current?.focus();

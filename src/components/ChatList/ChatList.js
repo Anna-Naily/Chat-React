@@ -1,5 +1,9 @@
+import { faTimesCircle } from "@fortawesome/free-regular-svg-icons";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
-import { ListGroup } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import "./ChatList.css";
 
 export const ChatList = () => {
   const [chatlist, setChatList] = useState([
@@ -8,23 +12,42 @@ export const ChatList = () => {
     { name: "Олег", mes: "Пока", id: "3" },
     { name: "Robot", mes: "Hello!", id: "4" },
   ]);
+  const deleteChat = id => {
+    let newChatlist = [...chatlist];
+    for (let i = 0; i < newChatlist.length; i++) {
+      if (id === newChatlist[i].id) {
+        newChatlist.splice(i, 1);
+      }
+    }
+    setChatList(newChatlist);
+  };
+  const addChat = () => {
+    let newChatlist = [...chatlist];
 
+    let newId = newChatlist[newChatlist.length - 1].id + 1;
+    newChatlist.push({ name: "Name", mes: "Message", id: newId });
+    setChatList(newChatlist);
+  };
   return (
     <div className="chat-block">
-      <ListGroup as="ul">
+      <ul className="list-chat">
         {chatlist.map(chat => (
-          <ListGroup.Item
-            className="list-group"
-            action
-            variant="light"
-            as="li"
-            key={chat.id}
-          >
-            <h2 className="header-chat">{chat.name}</h2>
-            <p className="text-chat">{chat.mes}</p>
-          </ListGroup.Item>
+          <li className="list-chat__item" key={chat.id}>
+            <Link to="/chats">
+              <FontAwesomeIcon
+                className="chat-icon"
+                icon={faTimesCircle}
+                onClick={() => deleteChat(chat.id)}
+              />
+            </Link>
+            <Link to={`/chats/${chat.id}`} className="link-chat">
+              <h2 className="header-chat">{chat.name}</h2>
+              <p className="text-chat">{chat.mes}</p>
+            </Link>
+          </li>
         ))}
-      </ListGroup>
+      </ul>
+      <FontAwesomeIcon className="add-icon" icon={faPlus} onClick={addChat} />
     </div>
   );
 };

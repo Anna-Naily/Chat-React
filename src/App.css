@@ -3,9 +3,8 @@
   margin: 0 auto;
   margin-top: 20px;
   background-color: #eff3fd;
-  border: 2px solid #b08cfd;
   border-radius: 20px;
-
+  height: 820px;
   box-shadow: 0 0 7px rgba(0, 0, 0, 0.5);
 }
 
@@ -19,11 +18,21 @@
     animation: App-logo-spin infinite 20s linear;
   }
 }
+.header-block {
+  background-color: #af8eee;
+  border-top-right-radius: 18px;
+  border-top-left-radius: 18px;
+  padding: 15px;
+}
+
+.btn-home {
+  margin-left: 15px;
+}
 
 .App-header {
   display: flex;
   justify-content: space-between;
-  padding: 40px 40px 50px 40px;
+  padding: 0px 40px 50px 0px;
 }
 .chat-list-block {
   overflow: auto;
@@ -40,14 +49,31 @@
   border-radius: 20px;
   padding: 5px 0px 5px 0px;
 }
+.font-icon {
+  font-size: 28px;
+  color: #eff3fd;
+  transition: 0.2s;
+}
+.font-icon:hover {
+  color: #895de0;
+}
 .App-header__heading {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  font-size: 30px;
+  font-size: 20px;
   font-weight: 400;
   line-height: 36px;
-  margin-left: 20px;
+  text-decoration: none;
   color: #051b6b;
-  margin-bottom: 30px;
+  display: block;
+  width: fit-content;
+  margin: 20px 0px 20px 40px;
+  box-shadow: 0 0 5px #8b4ffc;
+  border-radius: 20px;
+  padding: 2px 20px;
+  transition: 0.1s;
+}
+.App-header__heading:hover {
+  box-shadow: 0 0 5px #6111f7;
 }
 .chat-window-block {
   width: 100%;
@@ -57,19 +83,13 @@
   width: 700px;
   height: 520px;
   padding: 10px 15px 20px 15px;
-  border-radius: 20px;
+  border-top-right-radius: 20px;
+  border-top-left-radius: 20px;
   box-shadow: 0 0 10px #dce7fc;
   background-color: #fafbfe;
   overflow: auto;
 }
 
-.header-chat {
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  font-weight: 400;
-  font-size: 20px;
-  text-align: left;
-  color: #051b6b;
-}
 .chat-window__el {
   font-size: 14px;
   color: white;
@@ -83,9 +103,10 @@
 }
 .form-block {
   display: flex;
-  background-color: #fafbfe;
-  margin-top: 10px;
-  border-radius: 20px;
+  background-color: #ccbcff;
+
+  border-bottom-right-radius: 20px;
+  border-bottom-left-radius: 20px;
   box-shadow: 0 0 10px #dce7fc;
 }
 .form-block__input {
@@ -93,6 +114,7 @@
   padding: 10px 10px;
   width: 500px;
   border: 1px solid #edf2fc;
+  border-radius: 10px;
 }
 .btn-input {
   margin-top: 10px;
