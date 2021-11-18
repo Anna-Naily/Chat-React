@@ -17,7 +17,7 @@
 }
 .list-chat {
   padding: 5px 40px;
-  height: 500px;
+  height: 450px;
   overflow: auto;
 }
 .header-chat {
@@ -52,4 +52,12 @@
 }
 .add-icon:hover {
   color: #97b2fa;
+}
+.chat-input {
+  width: 250px;
+  padding: 5px 20px;
+  margin-left: 60px;
+  margin-bottom: 10px;
+  border: none;
+  text-align: center;
 }

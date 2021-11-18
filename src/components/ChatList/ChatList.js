@@ -1,33 +1,47 @@
 import { faTimesCircle } from "@fortawesome/free-regular-svg-icons";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { Link } from "react-router-dom";
+import { addChat, deleteChat } from "../../store/chats/actions";
 import "./ChatList.css";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addArrayMessages,
+  deleteArrayMessages,
+} from "../../store/messages/actions";
+import { selectChats } from "../../store/chats/selectors";
 
 export const ChatList = () => {
-  const [chatlist, setChatList] = useState([
-    { name: "Алекс", mes: "Привет! Как дела?", id: "1" },
-    { name: "Виктория", mes: "Окей", id: "2" },
-    { name: "Олег", mes: "Пока", id: "3" },
-    { name: "Robot", mes: "Hello!", id: "4" },
-  ]);
-  const deleteChat = id => {
-    let newChatlist = [...chatlist];
-    for (let i = 0; i < newChatlist.length; i++) {
-      if (id === newChatlist[i].id) {
-        newChatlist.splice(i, 1);
-      }
-    }
-    setChatList(newChatlist);
-  };
-  const addChat = () => {
-    let newChatlist = [...chatlist];
+  const [value, setValue] = useState("");
+  const dispatch = useDispatch();
+  const chatlist = useSelector(selectChats);
+  const handleDeleteChat = useCallback(
+    deleteId => {
+      dispatch(deleteChat(deleteId));
+      dispatch(deleteArrayMessages(deleteId));
+    },
+    [dispatch]
+  );
 
-    let newId = newChatlist[newChatlist.length - 1].id + 1;
-    newChatlist.push({ name: "Name", mes: "Message", id: newId });
-    setChatList(newChatlist);
+  const handleAddChat = useCallback(() => {
+    let newId = 1;
+    if (chatlist.length > 0) {
+      newId = Number(chatlist[chatlist.length - 1].id) + 1;
+    }
+    if (value === "") {
+      dispatch(addChat({ name: "Новый чат", mes: "", id: newId }));
+    } else {
+      dispatch(addChat({ name: value, mes: "", id: newId }));
+    }
+    dispatch(addArrayMessages(newId));
+    setValue("");
+  }, [dispatch, chatlist, value]);
+
+  const handleChange = e => {
+    setValue(e.target.value);
   };
+
   return (
     <div className="chat-block">
       <ul className="list-chat">
@@ -37,7 +51,7 @@ export const ChatList = () => {
               <FontAwesomeIcon
                 className="chat-icon"
                 icon={faTimesCircle}
-                onClick={() => deleteChat(chat.id)}
+                onClick={() => handleDeleteChat(chat.id)}
               />
             </Link>
             <Link to={`/chats/${chat.id}`} className="link-chat">
@@ -47,7 +61,19 @@ export const ChatList = () => {
           </li>
         ))}
       </ul>
-      <FontAwesomeIcon className="add-icon" icon={faPlus} onClick={addChat} />
+
+      <input
+        className="chat-input"
+        type="text"
+        value={value}
+        onChange={handleChange}
+        placeholder="Название чата"
+      />
+      <FontAwesomeIcon
+        className="add-icon"
+        icon={faPlus}
+        onClick={handleAddChat}
+      />
     </div>
   );
 };

@@ -54,6 +54,7 @@ function App() {
                 }
               />
             </Route>
+            <Route path="*" element={<h3>404</h3>} />
           </Routes>
         </BrowserRouter>
       </Provider>

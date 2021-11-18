@@ -1,68 +1,56 @@
 import { Form } from "../Form/Form";
 import "../../App.css";
-import { useState, useEffect, useCallback } from "react";
+import { useEffect, useCallback } from "react";
+import { addMessage } from "../../store/messages/actions";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
-
-const allMessages = {
-  1: [],
-  2: [],
-  3: [],
-  4: [],
-};
+import { selectMessages } from "../../store/messages/selectors";
 
 export const Chat = () => {
   const { chatId } = useParams();
-  const [messageList, setMessageList] = useState(allMessages);
-  const updateArray = useCallback(
-    newMessage => {
-      if (messageList[chatId].length === 0) {
-        newMessage.id = 1;
-      } else {
-        newMessage.id =
-          messageList[chatId][messageList[chatId].length - 1].id + 1;
-      }
-
-      const newList = {
-        ...messageList,
-        [chatId]: [...messageList[chatId], newMessage],
-      };
-      setMessageList(newList);
+  const dispatch = useDispatch();
+  const messageList = useSelector(selectMessages);
+  const handleAddMessage = useCallback(
+    message => {
+      dispatch(addMessage(message));
     },
-    [messageList, chatId]
+    [dispatch]
   );
 
   useEffect(() => {
     if (
-      messageList[chatId].length &&
-      messageList[chatId][messageList[chatId].length - 1].author !== "Robot"
+      messageList[chatId]?.length &&
+      messageList[chatId]?.[messageList[chatId]?.length - 1].author !== "Robot"
     ) {
       const timeout = setTimeout(
         () =>
-          updateArray({
+          handleAddMessage({
             author: "Robot",
+            id: chatId,
             text:
               "Hello,  " +
               messageList[chatId][messageList[chatId].length - 1].author +
               "!",
+            time: Date.now(),
           }),
         1000
       );
       return () => clearTimeout(timeout);
     }
-  }, [messageList, updateArray, chatId]);
+  }, [messageList, chatId, handleAddMessage]);
 
   return (
     <div className="chat-window-block">
       <h2 className="header-user">Robot</h2>
       <div className="chat-window">
         {messageList[chatId].map(mes => (
-          <div className="chat-window__el" key={mes.id}>
+          <div className="chat-window__el" key={mes.time}>
             {mes.author}: {mes.text}
           </div>
         ))}
       </div>
       <div className="chat-window-bottom">
-        <Form updateArray={updateArray} />
+        <Form updateArray={handleAddMessage} />
       </div>
     </div>
   );
