@@ -1,9 +1,9 @@
 import { Form } from "../Form/Form";
 import "../../App.css";
-import { useEffect, useCallback } from "react";
-import { addMessage } from "../../store/messages/actions";
+import { useCallback } from "react";
+import { addMessageWithReply } from "../../store/messages/actions";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router";
+import { useParams, Navigate } from "react-router";
 import { selectMessages } from "../../store/messages/selectors";
 
 export const Chat = () => {
@@ -12,32 +12,14 @@ export const Chat = () => {
   const messageList = useSelector(selectMessages);
   const handleAddMessage = useCallback(
     message => {
-      dispatch(addMessage(message));
+      dispatch(addMessageWithReply(message));
     },
     [dispatch]
   );
 
-  useEffect(() => {
-    if (
-      messageList[chatId]?.length &&
-      messageList[chatId]?.[messageList[chatId]?.length - 1].author !== "Robot"
-    ) {
-      const timeout = setTimeout(
-        () =>
-          handleAddMessage({
-            author: "Robot",
-            id: chatId,
-            text:
-              "Hello,  " +
-              messageList[chatId][messageList[chatId].length - 1].author +
-              "!",
-            time: Date.now(),
-          }),
-        1000
-      );
-      return () => clearTimeout(timeout);
-    }
-  }, [messageList, chatId, handleAddMessage]);
+  if (!messageList[chatId]) {
+    return <Navigate replace to="/chats" />;
+  }
 
   return (
     <div className="chat-window-block">

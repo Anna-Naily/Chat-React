@@ -21,6 +21,7 @@ export const ChatList = () => {
       dispatch(deleteChat(deleteId));
       dispatch(deleteArrayMessages(deleteId));
     },
+
     [dispatch]
   );
 

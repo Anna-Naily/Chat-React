@@ -14,3 +14,22 @@ export const deleteArrayMessages = id => ({
   type: DELETE_ARRAY_MESSAGES,
   payload: id,
 });
+
+let timeout;
+export const addMessageWithReply = message => dispatch => {
+  dispatch(addMessage(message));
+  if (message.author !== "Robot") {
+    if (timeout) {
+      clearTimeout(timeout);
+    }
+    timeout = setTimeout(() => {
+      const botMessage = {
+        author: "Robot",
+        id: message.id,
+        text: `Hello, ${message.author} !`,
+        time: Date.now(),
+      };
+      dispatch(addMessage(botMessage));
+    }, 1500);
+  }
+};
