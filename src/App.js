@@ -1,17 +1,73 @@
-import { useState } from "react";
-import { Message } from "./components/Message/Message";
 import "./App.css";
+import { persistor, store } from "./store";
+import { ChatList } from "./components/ChatList/ChatList";
+import { Chat } from "./components/Chat/Chat";
+import { BrowserRouter, Link, Routes, Route } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHome, faUserCircle } from "@fortawesome/free-solid-svg-icons";
+import { WaitingPage } from "./components/WaitingPage/WaitingPage";
+import { Provider } from "react-redux";
+import { Profile } from "./components/Profile/Profile";
+import { Home } from "./components/Home/Home";
+import { PersistGate } from "redux-persist/integration/react";
+import { Spinner } from "./components/Spinner/Spinner";
+import { Articles } from "./components/Articles/Articles";
+import { faNewspaper } from "@fortawesome/free-regular-svg-icons";
 
 function App() {
-  const [text, setText] = useState("Hello world!");
-  const handleClick = () => {
-    setText("GoodBye");
-  };
   return (
     <div className="App">
-      <header className="App-header">
-        <Message message={text} onMessageClick={handleClick} />
-      </header>
+      <Provider store={store}>
+        <PersistGate persistor={persistor} loading={<Spinner />}>
+          <BrowserRouter>
+            <div className="header-block">
+              <Link to="/profile" className="btn-home">
+                <FontAwesomeIcon className="font-icon" icon={faUserCircle} />
+              </Link>
+              <Link to="/" className="btn-home">
+                <FontAwesomeIcon className="font-icon" icon={faHome} />
+              </Link>
+              <Link to="/articles" className="btn-home">
+                <FontAwesomeIcon className="font-icon" icon={faNewspaper} />
+              </Link>
+            </div>
+            <Link to="/chats" className="App-header__heading">
+              Все чаты{" "}
+            </Link>
+
+            <Routes>
+              <Route path="profile" element={<Profile />} />
+              <Route path="/" element={<Home />} />
+              <Route path="articles" element={<Articles />} />
+              <Route path="chats">
+                <Route
+                  index
+                  element={
+                    <header className="App-header">
+                      <div className="chat-list-block">
+                        <ChatList />
+                      </div>
+                      <WaitingPage />
+                    </header>
+                  }
+                />
+                <Route
+                  path=":chatId"
+                  element={
+                    <header className="App-header">
+                      <div className="chat-list-block">
+                        <ChatList />
+                      </div>
+                      <Chat />
+                    </header>
+                  }
+                />
+              </Route>
+              <Route path="*" element={<h3>404</h3>} />
+            </Routes>
+          </BrowserRouter>
+        </PersistGate>
+      </Provider>
     </div>
   );
 }
