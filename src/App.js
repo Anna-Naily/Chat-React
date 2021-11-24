@@ -10,12 +10,15 @@ import { Provider } from "react-redux";
 import { Profile } from "./components/Profile/Profile";
 import { Home } from "./components/Home/Home";
 import { PersistGate } from "redux-persist/integration/react";
+import { Spinner } from "./components/Spinner/Spinner";
+import { Articles } from "./components/Articles/Articles";
+import { faNewspaper } from "@fortawesome/free-regular-svg-icons";
 
 function App() {
   return (
     <div className="App">
       <Provider store={store}>
-        <PersistGate persistor={persistor}>
+        <PersistGate persistor={persistor} loading={<Spinner />}>
           <BrowserRouter>
             <div className="header-block">
               <Link to="/profile" className="btn-home">
@@ -23,6 +26,9 @@ function App() {
               </Link>
               <Link to="/" className="btn-home">
                 <FontAwesomeIcon className="font-icon" icon={faHome} />
+              </Link>
+              <Link to="/articles" className="btn-home">
+                <FontAwesomeIcon className="font-icon" icon={faNewspaper} />
               </Link>
             </div>
             <Link to="/chats" className="App-header__heading">
@@ -32,6 +38,7 @@ function App() {
             <Routes>
               <Route path="profile" element={<Profile />} />
               <Route path="/" element={<Home />} />
+              <Route path="articles" element={<Articles />} />
               <Route path="chats">
                 <Route
                   index
