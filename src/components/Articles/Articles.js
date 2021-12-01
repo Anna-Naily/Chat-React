@@ -6,7 +6,6 @@ import {
   selectArticlesError,
   selectArticlesLoading,
 } from "../../store/articles/selectors";
-import { apiUrl } from "../../store/constants";
 import { Spinner } from "../Spinner/Spinner";
 import "./Articles.css";
 

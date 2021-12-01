@@ -1,8 +1,9 @@
-import { CHANGE_NAME, TOGGLE_CHECKBOX } from "./actions";
+import { CHANGE_NAME, TOGGLE_CHECKBOX, SIGN_IN, SIGN_OUT } from "./actions";
 
 const initialState = {
   checkbox: false,
   name: "User",
+  authed: false,
 };
 
 export const profileReducer = (state = initialState, action) => {
@@ -16,6 +17,16 @@ export const profileReducer = (state = initialState, action) => {
       return {
         ...state,
         name: action.payload,
+      };
+    case SIGN_IN:
+      return {
+        ...state,
+        authed: true,
+      };
+    case SIGN_OUT:
+      return {
+        ...state,
+        authed: false,
       };
     default:
       return state;

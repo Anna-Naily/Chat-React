@@ -1,23 +1,24 @@
 import { Form } from "../Form/Form";
 import "../../App.css";
 import { useCallback } from "react";
-import { addMessageWithReply } from "../../store/messages/actions";
-import { useDispatch, useSelector } from "react-redux";
 import { useParams, Navigate } from "react-router";
-import { selectMessages } from "../../store/messages/selectors";
+import { push } from "firebase/database";
+import { getChatMsgsListRefById } from "../../services/firebase";
+import { useSelector } from "react-redux";
+import { selectName } from "../../store/profile/selectors";
 
-export const Chat = () => {
+export const Chat = ({ msgs }) => {
   const { chatId } = useParams();
-  const dispatch = useDispatch();
-  const messageList = useSelector(selectMessages);
+  const name = useSelector(selectName);
+
   const handleAddMessage = useCallback(
     message => {
-      dispatch(addMessageWithReply(message));
+      push(getChatMsgsListRefById(chatId), message);
     },
-    [dispatch]
+    [chatId]
   );
 
-  if (!messageList[chatId]) {
+  if (!msgs[chatId]) {
     return <Navigate replace to="/chats" />;
   }
 
@@ -25,9 +26,9 @@ export const Chat = () => {
     <div className="chat-window-block">
       <h2 className="header-user">Robot</h2>
       <div className="chat-window">
-        {messageList[chatId].map(mes => (
+        {msgs[chatId].map(mes => (
           <div className="chat-window__el" key={mes.time}>
-            {mes.author}: {mes.text}
+            {name}: {mes.text}
           </div>
         ))}
       </div>

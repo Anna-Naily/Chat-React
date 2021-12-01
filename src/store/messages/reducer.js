@@ -1,4 +1,4 @@
-import { ADD_MESSAGE, DELETE_ARRAY_MESSAGES } from "./actions";
+import { ADD_MESSAGE, DELETE_ARRAY_MESSAGES, SET_MESSAGES } from "./actions";
 import { ADD_ARRAY_MESSAGES } from "./actions";
 const messageList = {};
 
@@ -14,6 +14,9 @@ export const messagesReducer = (state = messageList, { type, payload }) => {
         ({ id }) => id !== payload
       );
       return newMessages;
+    case SET_MESSAGES:
+      return payload;
+
     default:
       return state;
   }

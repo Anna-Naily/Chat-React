@@ -11,7 +11,6 @@ export const Form = props => {
   };
   const handleSubmit = e => {
     e.preventDefault();
-
     props.updateArray({
       author: "User",
       id: chatId,
