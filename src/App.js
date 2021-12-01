@@ -1,19 +1,19 @@
-import { useState } from "react";
-import { Message } from "./components/Message/Message";
 import "./App.css";
+import { persistor, store } from "./store";
+import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
+import { Spinner } from "./components/Spinner/Spinner";
+import { Router } from "./components/Router/Router";
 
 function App() {
-  const [text, setText] = useState("Hello world!");
-  const handleClick = () => {
-    setText("GoodBye");
-  };
   return (
     <div className="App">
-      <header className="App-header">
-        <Message message={text} onMessageClick={handleClick} />
-      </header>
+      <Provider store={store}>
+        <PersistGate persistor={persistor} loading={<Spinner />}>
+          <Router />
+        </PersistGate>
+      </Provider>
     </div>
   );
 }
-
 export default App;
