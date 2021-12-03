@@ -27,7 +27,7 @@ export const getArticles = () => async dispatch => {
     const result = await response.json();
     dispatch(getArticlesSuccess(result));
   } catch (error) {
-    console.warn(error);
+    //console.warn(error);
     dispatch(getArticlesFail(error.message));
   }
 };
